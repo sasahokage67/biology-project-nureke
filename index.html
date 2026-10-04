@@ -219,12 +219,98 @@ canvas{display:block}
 .err3d{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--mu);font-size:14px;padding:24px}
 
 @media (max-width:1100px){
-  .frame,.frame.wide{grid-template-columns:1fr;grid-template-rows:auto minmax(420px,1fr);height:auto;min-height:100%}
-  .slide{overflow-y:auto;padding:72px 18px 80px}
+  .frame,.frame.wide{grid-template-columns:1fr;grid-template-rows:auto minmax(360px,1fr);height:auto;min-height:100%}
+  .slide{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:68px 16px 84px}
   .side{overflow:visible}
   .bento{grid-template-columns:1fr 1fr;height:auto}
   .keys{display:none}
   .lyso-grid{grid-template-columns:1fr!important}
+}
+
+@media (max-width:768px){
+  /* Topbar & navigation on phone */
+  .topbar{height:50px;padding:0 14px}
+  .brand{font-size:12px;gap:7px}
+  .brand .mu{display:none}
+  #slideTitle{display:none}
+  .tb-r{gap:8px}
+  #counter{font-size:12px}
+  .ibtn{width:32px;height:32px}
+
+  /* Slide viewport padding for mobile */
+  .slide{padding:58px 12px 76px}
+  .frame,.frame.wide{grid-template-rows:auto auto;gap:14px}
+  .side{gap:12px;padding:0}
+
+  /* Typography */
+  .h1{font-size:clamp(38px,11vw,56px);line-height:0.95}
+  .h2{font-size:clamp(26px,7.5vw,36px);line-height:1.02}
+  .lead{font-size:13.5px;line-height:1.45}
+
+  /* Key-value points */
+  .pt{grid-template-columns:82px 1fr;gap:8px;padding:8px 0;font-size:12.5px}
+  .pt b{font-size:12px}
+
+  /* Compact controls & buttons */
+  .btn{height:38px;padding:0 12px;font-size:12.5px}
+  .seg{flex-wrap:wrap;width:100%}
+  .seg button{flex:1 1 auto;height:32px;padding:0 8px;font-size:12px;justify-content:center}
+  .stat .v{font-size:20px}
+  .stat .k{font-size:10.5px}
+  .hero-chips{gap:6px}
+  .chip{height:30px;padding:0 10px;font-size:12px}
+
+  /* Interactive stages */
+  .stage{min-height:280px;height:310px}
+  #ciliaHost{min-height:300px}
+  .stage.panel{border-radius:14px}
+
+  /* Conveyor / Map */
+  .step{padding:8px 10px;grid-template-columns:28px 1fr auto;gap:8px}
+  .step .n{width:24px;height:24px;border-radius:6px}
+  .step b{font-size:13px}
+  .step small{font-size:11px}
+  #stepDesc{min-height:48px;font-size:13px}
+
+  /* ER table */
+  .cmp{grid-template-columns:74px 1fr 1fr;font-size:11.5px}
+  .cmp>div{padding:7px 5px}
+  .cmp .k{font-size:10px}
+  .cmp .h{font-size:11.5px}
+
+  /* Lysosomes / Autophagy / Peroxisomes */
+  .lyso-grid{gap:12px}
+  .asteps{gap:2px}
+  .asteps li{font-size:9.5px;padding-top:4px}
+  #phVal,#phAct{font-size:26px}
+  .eq{font-size:19px;gap:6px}
+
+  /* Vacuole stat bar */
+  .grid-cols-\[1fr_1fr_120px\]{grid-template-columns:1fr 1fr 88px!important}
+
+  /* 3D Cilia HUD */
+  .hud.left-4.top-4{left:8px;top:8px;right:8px}
+  .hud.right-4.top-4{right:8px;top:46px}
+  .hud.left-4.bottom-4{display:none}
+  .hud.right-4.bottom-4{right:8px;bottom:8px}
+  #viewSeg{width:100%}
+  #viewSeg button{font-size:11px;padding:0 6px;height:30px}
+  .legend{grid-template-columns:1fr;gap:4px;font-size:11px}
+
+  /* Bento summary & Quiz */
+  .bento{grid-template-columns:1fr;gap:10px}
+  .card{padding:14px;grid-column:span 1!important}
+  .card h3{font-size:16px}
+  .card p{font-size:12px}
+  #qBox{padding:16px}
+  #qText{font-size:18px}
+  .opt{padding:10px 12px;font-size:13.5px}
+
+  /* Bottom dots */
+  #dots{bottom:12px;padding:5px 8px;gap:4px}
+  #dots button{width:6px;height:6px}
+  #dots button.on{width:18px}
+  #dots button span{display:none}
 }
 </style>
 </head>
