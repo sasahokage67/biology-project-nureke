@@ -1773,20 +1773,19 @@ window.addEventListener('touchend', e => {
   const atBottom = !scrollable || (s.scrollTop + s.clientHeight >= s.scrollHeight - 10);
   const vy = Math.abs(dy) / dt, vx = Math.abs(dx) / dt;
 
-  // Horizontal swipe: clear intent (dx > 55 and faster/stronger than dy)
-  if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.25) {
-    touchLockUntil = now + 480;
+  // Horizontal swipe: clear intent (dx > 50 and faster/stronger than dy)
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+    touchLockUntil = now + 450;
     go(cur + (dx < 0 ? 1 : -1));
   }
-  // Vertical swipe/flick to flip slide:
-  // Swipe up (dy < 0) -> Next slide
-  else if (dy < -50 && atBottom && (Math.abs(dy) > 75 || vy > 0.45)) {
-    touchLockUntil = now + 480;
+  // Vertical swipe up (dy < 0) -> Next slide
+  else if (dy < -50 && (Math.abs(dy) > 75 || vy > 0.38 || atBottom)) {
+    touchLockUntil = now + 450;
     go(cur + 1);
   }
-  // Swipe down (dy > 0) -> Prev slide
-  else if (dy > 50 && atTop && (Math.abs(dy) > 75 || vy > 0.45)) {
-    touchLockUntil = now + 480;
+  // Vertical swipe down (dy > 0) -> Prev slide (symmetric to swipe up)
+  else if (dy > 50 && (Math.abs(dy) > 75 || vy > 0.38 || atTop)) {
+    touchLockUntil = now + 450;
     go(cur - 1);
   }
   ty = null; tx = null;
