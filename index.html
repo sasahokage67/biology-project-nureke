@@ -195,16 +195,18 @@ canvas{display:block}
 .hud{position:absolute;z-index:3}
 
 /* summary + quiz */
-.bento{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(0,1fr);gap:12px;height:100%}
-.card{position:relative;text-align:left;padding:18px;border:1px solid var(--ln);border-radius:16px;background:rgba(18,18,21,.7);overflow:hidden;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,transform .15s,background .15s}
-.card:hover{border-color:var(--lh);background:rgba(24,24,27,.8)}
+.slide[data-id="sum"]{display:block;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.sum-wrap{min-height:100%;display:flex;flex-direction:column;gap:18px;padding-bottom:32px}
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;height:auto}
+.card{position:relative;text-align:left;padding:18px 20px;border:1px solid var(--ln);border-radius:16px;background:rgba(18,18,21,.78);display:flex;flex-direction:column;gap:10px;transition:border-color .15s,transform .15s,background .15s;height:auto;min-height:auto;cursor:pointer}
+.card:hover{border-color:var(--lh);background:rgba(24,24,27,.9)}
 .card:active{transform:scale(.99)}
 .card:focus-visible{outline:none;box-shadow:0 0 0 2px var(--sky)}
-.card .ic{width:36px;height:36px;border-radius:10px;border:1px solid var(--ln);display:grid;place-items:center;color:var(--sky)}
+.card .ic{width:36px;height:36px;border-radius:10px;border:1px solid var(--ln);display:grid;place-items:center;color:var(--sky);flex-shrink:0}
 .card .ic svg{width:18px;height:18px}
-.card h3{font:600 clamp(18px,1.5vw,24px)/1.05 'Space Grotesk';letter-spacing:-.03em}
-.card p{font-size:13px;color:var(--mu);line-height:1.45}
-.card .met{font:500 12px 'Space Grotesk';color:var(--fg);margin-top:auto;display:flex;align-items:center;gap:6px}
+.card h3{font:600 clamp(16px,1.35vw,22px)/1.15 'Space Grotesk';letter-spacing:-.02em}
+.card p{font-size:13px;color:#d4d4d8;line-height:1.5}
+.card .met{font:500 12px 'Space Grotesk';color:var(--sky);margin-top:auto;display:flex;align-items:center;gap:6px;padding-top:4px}
 .card .met svg{width:14px;height:14px;transition:transform .15s}
 .card:hover .met svg{transform:translateX(3px)}
 .opt{display:flex;align-items:center;gap:12px;text-align:left;padding:14px 16px;border:1px solid var(--ln);border-radius:12px;background:rgba(9,9,11,.5);font-size:15px;transition:border-color .12s,background .12s,transform .12s,color .12s}
@@ -224,7 +226,9 @@ canvas{display:block}
   .frame,.frame.wide{grid-template-columns:1fr;grid-template-rows:auto auto;height:auto;min-height:0}
   .slide{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;display:block;padding:70px 20px 84px}
   .side{overflow:visible;height:auto}
-  .bento{grid-template-columns:1fr 1fr;height:auto}
+  .bento{grid-template-columns:1fr 1fr;gap:12px;height:auto}
+  .bento .card{grid-column:span 1!important}
+  .bento .card.card-wide{grid-column:span 2!important}
   .keys{display:none}
   .lyso-grid{grid-template-columns:1fr!important}
 }
@@ -315,10 +319,14 @@ canvas{display:block}
   .legend{grid-template-columns:1fr;gap:4px;font-size:11px}
 
   /* Summary Bento Grid on phone */
-  .bento{display:flex;flex-direction:column;gap:10px;height:auto}
-  .card{padding:14px;width:100%}
-  .card h3{font-size:16px}
-  .card p{font-size:12px}
+  .slide[data-id="sum"]{padding:58px 12px 86px!important}
+  .sum-wrap{gap:14px!important;padding-bottom:24px!important}
+  .bento{display:flex!important;flex-direction:column!important;gap:12px!important;height:auto!important;min-height:auto!important;flex:none!important}
+  .card{padding:16px!important;width:100%!important;flex-shrink:0!important;height:auto!important;min-height:auto!important;overflow:visible!important}
+  .card h3{font-size:16px!important;line-height:1.2!important}
+  .card p{font-size:12.5px!important;line-height:1.45!important;color:#d4d4d8!important}
+  .card .met{margin-top:6px!important;font-size:11.5px!important}
+  .slide.is-active .reveal{opacity:1!important;transform:none!important;filter:none!important}
 
   /* Quiz on phone */
   #qBox{padding:16px}
@@ -628,20 +636,165 @@ canvas{display:block}
 
 <!-- ============ SUMMARY ============ -->
 <section class="slide" data-id="sum" data-title="Итог">
-  <div class="w-full h-full max-w-[1720px] mx-auto flex flex-col gap-5 min-h-0">
-    <div class="flex items-end justify-between gap-6 flex-wrap">
-      <h2 class="h2 reveal" style="--d:0">Единая мембранная система</h2>
-      <div class="reveal flex items-center gap-2 fd text-[13px] text-mut flex-wrap" style="--d:1">
-        <span class="text-fg">ЭПС</span><i data-lucide="arrow-right" class="w-4 h-4"></i><span class="text-fg">пузырьки</span><i data-lucide="arrow-right" class="w-4 h-4"></i><span class="text-fg">Гольджи</span><i data-lucide="arrow-right" class="w-4 h-4"></i><span class="text-neon">экспорт</span><span>/</span><span class="text-bio">лизосомы</span><span>/</span><span class="text-fg">вакуоли</span>
+  <div class="sum-wrap w-full max-w-[1720px] mx-auto flex flex-col gap-6">
+    <div class="flex items-start md:items-end justify-between gap-4 flex-col md:flex-row flex-wrap">
+      <div>
+        <span class="badge em mb-2"><i class="d"></i>Обобщение §22 · Итог</span>
+        <h2 class="h2 reveal" style="--d:0">Единая мембранная система</h2>
+      </div>
+      <div class="reveal flex items-center gap-2 fd text-[12.5px] text-mut flex-wrap panel px-3.5 py-2" style="--d:1">
+        <span class="text-fg font-medium">ЭПС (синтез)</span>
+        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-zinc-500"></i>
+        <span class="text-zinc-300">везикулы</span>
+        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-zinc-500"></i>
+        <span class="text-fg font-medium">Гольджи (сортировка)</span>
+        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-zinc-500"></i>
+        <span class="text-neon font-medium">экспорт (экзоцитоз)</span>
+        <span class="text-zinc-600">/</span>
+        <span class="text-bio font-medium">лизосомы</span>
+        <span class="text-zinc-600">/</span>
+        <span class="text-fg font-medium">вакуоли</span>
       </div>
     </div>
-    <div class="bento flex-1 min-h-0">
-      <button class="card reveal" style="--d:2;grid-column:span 3" data-go="2"><div class="ic"><i data-lucide="network"></i></div><h3>ЭПС — производственный цех</h3><p>Шероховатая собирает белки на рибосомах, гладкая — липиды и обезвреживает яды.</p><span class="met">Открыть<i data-lucide="arrow-right"></i></span></button>
-      <button class="card reveal" style="--d:3;grid-column:span 3" data-go="3"><div class="ic"><i data-lucide="layers"></i></div><h3>Гольджи — сортировочный центр</h3><p>Дорабатывает молекулы, ставит «адресные метки», упаковывает в пузырьки.</p><span class="met">Открыть<i data-lucide="arrow-right"></i></span></button>
-      <button class="card reveal" style="--d:4;grid-column:span 2" data-go="4"><div class="ic" style="color:#10b981"><i data-lucide="recycle"></i></div><h3>Лизосомы — переработка</h3><p>Кислая среда pH 4,8, ферменты переваривают всё, включая старые органоиды.</p><span class="met">Открыть<i data-lucide="arrow-right"></i></span></button>
-      <button class="card reveal" style="--d:5;grid-column:span 2" data-go="5"><div class="ic" style="color:#10b981"><i data-lucide="flask-conical"></i></div><h3>Пероксисомы — детокс</h3><p>Каталаза разбирает ядовитый H₂O₂ на воду и кислород.</p><span class="met">Открыть<i data-lucide="arrow-right"></i></span></button>
-      <button class="card reveal" style="--d:6;grid-column:span 2" data-go="6"><div class="ic"><i data-lucide="droplets"></i></div><h3>Вакуоли — гидравлика</h3><p>Тургор держит форму растения, запас воды и веществ.</p><span class="met">Открыть<i data-lucide="arrow-right"></i></span></button>
-      <button class="card reveal" style="--d:7;grid-column:span 6;flex-direction:row;align-items:center;gap:18px" data-go="7"><div class="ic"><i data-lucide="rotate-3d"></i></div><div class="flex-1"><h3>Реснички и жгутики — двигатель</h3><p>Аксонема 9×2+2 на базальном теле 9×3. Динеин превращает энергию АТФ в волну изгиба.</p></div><span class="met" style="margin-top:0">3D-модель<i data-lucide="arrow-right"></i></span></button>
+
+    <!-- Core Biology Explanation & Takeaways -->
+    <div class="panel p-5 md:p-6 reveal flex flex-col gap-4" style="--d:2">
+      <p class="lead max-w-none text-zinc-200 text-[13.5px] md:text-[15px] leading-relaxed">
+        Все одномембранные органоиды эукариотической клетки топологически и функционально связаны в единый непрерывный комплекс. Липидные бислои и мембранные белки синтезируются в эндоплазматической сети, созревают и маркируются адресными метками в комплексе Гольджи, после чего распределяются по клетке везикулярным транспортом. Это обеспечивает <b class="text-white">компартментализацию</b> — физическую изоляцию биохимических реакций с несовместимыми условиями.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-3 border-t border-[rgba(255,255,255,0.08)]">
+        <div class="p-3.5 rounded-xl bg-zinc-900/60 border border-[rgba(255,255,255,0.07)] flex flex-col gap-1.5">
+          <div class="flex items-center gap-2 text-neon text-[11px] font-semibold tracking-wider uppercase fd">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <span>Непрерывность</span>
+          </div>
+          <b class="text-[13px] text-white font-medium">Поток мембран</b>
+          <span class="text-[12px] text-zinc-300 leading-snug">Мембраны не строятся с нуля: они перетекают из ЭПС через везикулы в Гольджи и плазмалемму.</span>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-zinc-900/60 border border-[rgba(255,255,255,0.07)] flex flex-col gap-1.5">
+          <div class="flex items-center gap-2 text-bio text-[11px] font-semibold tracking-wider uppercase fd">
+            <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+            <span>Компартменты</span>
+          </div>
+          <b class="text-[13px] text-white font-medium">Изоляция сред</b>
+          <span class="text-[12px] text-zinc-300 leading-snug">Мембраны запирают кислую среду (pH 4,8 в лизосомах) и активные радикалы (H₂O₂ в пероксисомах).</span>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-zinc-900/60 border border-[rgba(255,255,255,0.07)] flex flex-col gap-1.5">
+          <div class="flex items-center gap-2 text-sky-400 text-[11px] font-semibold tracking-wider uppercase fd">
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            <span>Векторность</span>
+          </div>
+          <b class="text-[13px] text-white font-medium">Транспорт грузов</b>
+          <span class="text-[12px] text-zinc-300 leading-snug">Строгий конвейер: сборка мономеров → химическая модификация → упаковка по адресам назначения.</span>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-zinc-900/60 border border-[rgba(255,255,255,0.07)] flex flex-col gap-1.5">
+          <div class="flex items-center gap-2 text-emerald-400 text-[11px] font-semibold tracking-wider uppercase fd">
+            <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+            <span>Энергетика</span>
+          </div>
+          <b class="text-[13px] text-white font-medium">Тургор и моторика</b>
+          <span class="text-[12px] text-zinc-300 leading-snug">Осмотический каркас вакуолей (до 1,5 МПа) и работа молекулярных моторов динеина с гидролизом АТФ.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Organelle Cards -->
+    <div class="bento flex-1">
+      <button class="card reveal" style="--d:3;grid-column:span 3" data-go="2">
+        <div class="flex items-center justify-between w-full">
+          <div class="ic"><i data-lucide="network"></i></div>
+          <span class="badge">§22.1 ЭПС</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <h3 class="text-white font-medium">ЭПС — производственная фабрика</h3>
+          <span class="text-[11.5px] text-sky-400 font-mono">Шероховатая (грЭПС) + Гладкая (агрЭПС)</span>
+        </div>
+        <p class="text-zinc-300 text-[13px] leading-relaxed">
+          <b>Шероховатая сеть</b> усеяна рибосомами: осуществляет биосинтез экспортных и мембранных белков с их первичным фолдингом. <b>Гладкая сеть</b> синтезирует липиды, фосфолипиды и стероидные гормоны, служит депо ионов Ca²⁺ и обезвреживает ксенобиотики и яды в клетках печени.
+        </p>
+        <span class="met">Перейти к интерактиву ЭПС<i data-lucide="arrow-right"></i></span>
+      </button>
+
+      <button class="card reveal" style="--d:4;grid-column:span 3" data-go="3">
+        <div class="flex items-center justify-between w-full">
+          <div class="ic"><i data-lucide="layers"></i></div>
+          <span class="badge">§22.2 Гольджи</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <h3 class="text-white font-medium">Комплекс Гольджи — логистический центр</h3>
+          <span class="text-[11.5px] text-sky-400 font-mono">Cis-полюс → Транс-полюс · Диктиосома</span>
+        </div>
+        <p class="text-zinc-300 text-[13px] leading-relaxed">
+          Система стопок плоских цистерн. Принимает первичные везикулы от ЭПС на формирующей (cis) стороне, проводит глубокое гликозилирование (присоединение олигосахаридов), фосфорилирование и навешивает молекулярные адресные метки. На trans-стороне сортирует и отпочковывает секреторные пузырьки и первичные лизосомы.
+        </p>
+        <span class="met">Перейти к конвейеру Гольджи<i data-lucide="arrow-right"></i></span>
+      </button>
+
+      <button class="card reveal" style="--d:5;grid-column:span 2" data-go="4">
+        <div class="flex items-center justify-between w-full">
+          <div class="ic" style="color:#10b981"><i data-lucide="recycle"></i></div>
+          <span class="badge em"><i class="d"></i>pH 4,8</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <h3 class="text-white font-medium">Лизосомы — утилизация</h3>
+          <span class="text-[11.5px] text-emerald-400 font-mono">Гидролазы · Автофагия</span>
+        </div>
+        <p class="text-zinc-300 text-[13px] leading-relaxed">
+          Мембранные пузырьки с ~50 кислыми гидролитическими ферментами. Протонная H⁺-помпа поддерживает кислый pH 4,8. Разлагают чужеродные частицы (гетерофагия) и перерабатывают отслужившие свой срок органоиды клетки (автофагия, Нобелевская премия 2016).
+        </p>
+        <span class="met">Исследовать pH и автофагию<i data-lucide="arrow-right"></i></span>
+      </button>
+
+      <button class="card reveal" style="--d:6;grid-column:span 2" data-go="5">
+        <div class="flex items-center justify-between w-full">
+          <div class="ic" style="color:#10b981"><i data-lucide="flask-conical"></i></div>
+          <span class="badge em"><i class="d"></i>Детокс</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <h3 class="text-white font-medium">Пероксисомы — защита</h3>
+          <span class="text-[11.5px] text-emerald-400 font-mono">Каталаза · 2H₂O₂ → 2H₂O + O₂</span>
+        </div>
+        <p class="text-zinc-300 text-[13px] leading-relaxed">
+          Тельца с кристаллоидной белковой сердцевиной. Фермент каталаза нейтрализует опасный токсичный пероксид водорода (миллионы молекул в секунду). Окисляют этанол, нейтрализуют яды и расщепляют жирные кислоты, ликвидируя окислительный стресс.
+        </p>
+        <span class="met">Запустить реакцию расщепления<i data-lucide="arrow-right"></i></span>
+      </button>
+
+      <button class="card reveal" style="--d:7;grid-column:span 2" data-go="6">
+        <div class="flex items-center justify-between w-full">
+          <div class="ic"><i data-lucide="droplets"></i></div>
+          <span class="badge">Тургор</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <h3 class="text-white font-medium">Вакуоли — гидроскелет</h3>
+          <span class="text-[11.5px] text-sky-400 font-mono">Тонопласт · Клеточный сок</span>
+        </div>
+        <p class="text-zinc-300 text-[13px] leading-relaxed">
+          Занимают до 95% объёма растительной клетки. Мембрана тонопласт нагнетает воду, создавая высокое тургорное осмотическое давление (до 1,5–2 МПа), удерживая форму листьев и стеблей. Служат резервуаром сахаров, солей и пигментов-антоцианов.
+        </p>
+        <span class="met">Симулятор плазмолиза и тургора<i data-lucide="arrow-right"></i></span>
+      </button>
+
+      <button class="card card-wide reveal" style="--d:8;grid-column:span 6" data-go="7">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 w-full">
+          <div class="flex items-center gap-3">
+            <div class="ic"><i data-lucide="rotate-3d"></i></div>
+            <div class="flex flex-col gap-0.5">
+              <h3 class="text-white font-medium">Реснички и жгутики — клеточный двигатель</h3>
+              <span class="text-[11.5px] text-sky-400 font-mono">Аксонема 9×2+2 · Базальное тело 9×3 · Моторный белок динеин</span>
+            </div>
+          </div>
+          <span class="badge shrink-0">Одета плазмалеммой</span>
+        </div>
+        <p class="text-zinc-300 text-[13px] leading-relaxed">
+          Специализированные подвижные выросты клетки, покрытые мембраной. Внутри расположен микротрубочковый скелет — аксонема: 9 сдвоенных микротрубочек (дублетов) по кругу и 2 одиночные в центре. Моторные белковые ручки динеина расщепляют АТФ и скользят по соседним трубочкам, вызывая упругий волнообразный изгиб жгутика.
+        </p>
+        <span class="met">Открыть интерактивную 3D-модель жгутика<i data-lucide="arrow-right"></i></span>
+      </button>
     </div>
   </div>
 </section>
