@@ -140,7 +140,9 @@ canvas{display:block}
 .spot::before,.spot::after{content:"";position:absolute;width:14px;height:14px;border-color:#fff;border-style:solid}
 .spot::before{left:-6px;top:-6px;border-width:2px 0 0 2px;border-radius:4px 0 0 0}
 .spot::after{right:-6px;bottom:-6px;border-width:0 2px 2px 0;border-radius:0 0 4px 0}
-.spot-lbl{position:absolute;left:-1px;top:-30px;height:22px;padding:0 9px;display:flex;align-items:center;gap:6px;border-radius:6px;background:var(--sky);color:#04121b;font:600 11px 'Space Grotesk';letter-spacing:.06em;text-transform:uppercase;line-height:1;white-space:nowrap}
+.spot-lbl{position:absolute;left:-1px;top:-30px;height:22px;padding:0 9px;display:flex;align-items:center;gap:6px;border-radius:6px;background:var(--sky);color:#04121b;font:600 11px 'Space Grotesk';letter-spacing:.06em;text-transform:uppercase;line-height:1;white-space:nowrap;transition:top .3s,bottom .3s,left .3s,right .3s;z-index:10}
+.spot.lbl-bottom .spot-lbl{top:auto;bottom:-30px}
+.spot.lbl-right .spot-lbl{left:auto;right:-1px}
 .step{position:relative;width:100%;display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;text-align:left;padding:10px 12px;border:1px solid var(--ln);border-radius:12px;background:rgba(9,9,11,.4);transition:border-color .12s,background .12s;overflow:hidden}
 .step:hover{border-color:var(--lh)}
 .step:focus-visible{outline:none;box-shadow:0 0 0 2px var(--sky)}
@@ -806,8 +808,8 @@ function buildFallbackSvg(svg) {
     P.push(`<circle cx="${x}" cy="${y}" r="${r}" fill="rgba(16,185,129,.1)" stroke="#10b981" stroke-width="1.8"/>`);
     for (let k = 0; k < 5; k++) { const a = k * 1.3 + x; P.push(`<circle cx="${(x + Math.cos(a) * r * .5).toFixed(1)}" cy="${(y + Math.sin(a) * r * .5).toFixed(1)}" r="2" fill="#10b981"/>`); }
   });
-  const T = (x, y, s, a = 'middle') => P.push(`<text x="${x}" y="${y}" fill="#a1a1aa" font-family="Space Grotesk" font-size="13" letter-spacing="1.5" text-anchor="${a}">${s}</text>`);
-  T(170, 345, 'ЯДРО'); T(300, 140, 'ЭПС'); T(425, 430, 'ПУЗЫРЬКИ'); T(550, 232, 'ГОЛЬДЖИ'); T(840, 112, 'ЭКЗОЦИТОЗ'); T(790, 585, 'ЛИЗОСОМЫ'); T(60, 52, 'ПЛАЗМАТИЧЕСКАЯ МЕМБРАНА', 'start');
+  const T = (x, y, s, a = 'middle') => P.push(`<text x="${x}" y="${y}" fill="#d4d4d8" font-weight="600" font-family="Space Grotesk" font-size="14" letter-spacing="1.2" text-anchor="${a}">${s}</text>`);
+  T(170, 345, 'ЯДРО'); T(300, 140, 'ЭПС'); T(425, 430, 'ПУЗЫРЬКИ'); T(550, 232, 'ГОЛЬДЖИ'); T(835, 126, 'ЭКЗОЦИТОЗ'); T(790, 585, 'ЛИЗОСОМЫ'); T(60, 52, 'ПЛАЗМАТИЧЕСКАЯ МЕМБРАНА', 'start');
   svg.innerHTML = P.join('');
 }
 
@@ -862,6 +864,8 @@ MODS.map = {
   place(instant) {
     const z = this.zones[this.step], s = this.spot.style;
     s.left = z.x + '%'; s.top = z.y + '%'; s.width = z.w + '%'; s.height = z.h + '%';
+    this.spot.classList.toggle('lbl-bottom', z.y < 14);
+    this.spot.classList.toggle('lbl-right', z.x > 62);
     $('#spotLbl').textContent = STEPS[this.step].k;
     $$('#stepList .step').forEach((b, i) => { b.classList.toggle('on', i === this.step); if (i !== this.step) b.querySelector('.bar').style.width = '0'; });
     const d = $('#stepDesc'); if (instant) { d.textContent = STEPS[this.step].d; return; }
